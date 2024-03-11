@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from "./Components/Pages/Landing/Landing";
 import Auth from "./Components/Pages/Auth/Auth";
 import Payment from "./Components/Pages/Payment/Payment";
@@ -15,33 +15,30 @@ const stripePromise = loadStripe(
   "pk_test_51OOw6vFHawdQw4M7cOxZy5ELa8zRCDXCoCvhMBO1GtzDHpzOaKh3YLGQMxux9Mf2kFrYOpTY3v17NVq2vxFyxacb005IKNQhkJ"
 );
 
-
 function Routing() {
     return (
-    <Router>
+      <Router>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/amazonclon" element={<Landing />} />
           <Route path="auth" element={<Auth />} />
           <Route path="payments" element={
-            <ProtectedRoute msg={"you must log in to pay"} redirect={'/payments'} >
-
-              <Elements stripe={stripePromise} >
-          <Payment />
-          </Elements> </ProtectedRoute>}/>
-            
-          
+            <ProtectedRoute msg={"You must log in to pay"} redirect={'/auth'}>
+              <Elements stripe={stripePromise}>
+                <Payment />
+              </Elements>
+            </ProtectedRoute>
+          } />
           <Route path="orders" element={
-            <ProtectedRoute msg={"you must log in to access your orders"}
-            redirect={"/orders"} >
+            <ProtectedRoute msg={"You must log in to access your orders"} redirect={"/auth"}>
               <Orders />
-            </ProtectedRoute>          
+            </ProtectedRoute>
           } />
           <Route path="/category/:categoryName" element={<Results />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
-
           <Route path="cart" element={<Cart />} />
         </Routes>
-    </Router>)
+      </Router>
+    );
 }
 
 export default Routing;
